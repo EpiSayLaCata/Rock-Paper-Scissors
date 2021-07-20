@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:rock_paper_scissors/ui_factory/ui_factory.dart';
 import 'package:rock_paper_scissors/utils/utils.dart';
 import 'package:rock_paper_scissors/pages/reset_score.dart';
-import 'package:rock_paper_scissors/pages/who_won.dart';
+//import 'package:rock_paper_scissors/pages/who_won.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
   @override
-  _HomePageState createState() => _HomePageState();
+  HomePageState createState() => HomePageState();
 }
 
 List<Image> imgHands = [
@@ -19,7 +20,9 @@ var playerTappedIndex, computerRandomIndex;
 var numberGames = 0, iaScore = 0, playerScore = 0;
 final myController = TextEditingController();
 
-class _HomePageState extends State<HomePage> {
+@visibleForTesting
+class HomePageState extends State<HomePage> {
+  //int playerTappedIndex = 0;
   @override
   void initState() {
     super.initState();
@@ -45,6 +48,7 @@ class _HomePageState extends State<HomePage> {
               Text(
                 'Number of game(s) : ' + '$numberGames',
                 style: TextStyle(fontSize: 15),
+                key: const Key('nbrGames'),
               ),
               Text(
                 'Score IA : ' + '$iaScore',
@@ -226,6 +230,35 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  List whoWon(iaIndex, playerIndex) {
+    numberGames++;
+
+    if (iaIndex == playerIndex) {
+    } else {
+      if (iaIndex == 1) {
+        if (playerIndex == 2) {
+          playerScore++;
+        } else {
+          iaScore++;
+        }
+      } else if (iaIndex == 2) {
+        if (playerIndex == 1) {
+          iaScore++;
+        } else {
+          playerScore++;
+        }
+      } else {
+        if (playerIndex == 1) {
+          playerScore++;
+        } else {
+          iaScore++;
+        }
+      }
+    }
+
+    return [iaIndex, playerIndex];
   }
 
   void choosePlayerName() {
